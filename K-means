@@ -9,7 +9,6 @@ scaler = MinMaxScaler()
 df_normalized = pd.DataFrame(scaler.fit_transform(data), columns=data.columns)
 data=df_normalized
 
-
 # Elbow method to determine the optimal value of K
 ks = range(1, 15)
 wcss = []
@@ -45,7 +44,6 @@ anomaly_index=anomalias.index
 print(anomaly_index)
 anomalias.to_excel('K_Means_anomalias.xlsx')
 
-
 # Davies Bouldin index
 from sklearn.metrics import davies_bouldin_score
 print(davies_bouldin_score(data, labels))
@@ -67,13 +65,10 @@ print(cm)
 
 # True Positives
 VP = cm[0, 0]
-
 # True Negatives
 VN = cm[1, 1]
-
 # False Positives (FP)
 FP = cm[1, 0]
-
 # False Negatives (FN)
 FN = cm[0, 1]
 
