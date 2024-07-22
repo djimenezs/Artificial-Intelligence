@@ -34,13 +34,12 @@ centroids = kmeans.cluster_centers_
 # Calculate the distance of each point to the centroid of its cluster.
 distances = np.linalg.norm(data - centroids[labels], axis=1)
 
-# Threshold to detect anomalies
+# Definition of the anomaly threshold and anomaly detection
 umbral = 0.41
-
 anomalias = data[distances > umbral]
 
-# Impresión de resultados
-print("Número de anomalías detectadas:", len(anomalias))
+# Results
+print("Number of anomalies detected:", len(anomalias))
 print(anomalias)
 anomaly_index=anomalias.index
 print(anomaly_index)
