@@ -38,5 +38,32 @@ anomalies = test_errors > threshold
 
 # Results
 print("anomaly threshold: {threshold:.4f}")
-print("Number of anomalies detected: {np.sum(anomalies)}")
-print(anomalies)
+print("Number of anomalies detected:", len(anomalias))
+print("Anomalies:", anomalies)
+anomaly_index=anomalies.index
+print("Anomaly indexes:", anomaly_index)
+anomalies.to_excel('Autoencoders_anomalies.xlsx')
+
+# Confusion matrix
+from sklearn.metrics import confusion_matrix, precision_score, recall_score, accuracy_score, f1_score
+import seaborn as sns
+dat = pd.read_excel('tdaytdf.xlsx')
+etiq_verdadera=dat['anom']
+etiq_predicha=dat['iForest']
+cm = confusion_matrix(etiq_verdadera, etiq_predicha,labels=[0, 1])
+print(cm)
+
+# True Positives
+VP = cm[0, 0]
+# True Negatives
+VN = cm[1, 1]
+# False Positives (FP)
+FP = cm[1, 0]
+# False Negatives (FN)
+FN = cm[0, 1]
+
+TDA= VP/(VP+FN)  # Anomaly Detection Rate (ADR)
+TFA=FP/(VN+FP)   # False Alarm Rate (FAR)
+print("Anomaly Detection Rate (ADR):", TDA)
+print("False Alarm Rate (FAR):", TFA)
+
