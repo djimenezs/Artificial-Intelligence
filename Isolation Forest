@@ -29,9 +29,10 @@ anomaly=dataset[scores < umbral]
 
 # Results
 print("Number of anomalies detected:", len(anomaly))
+print("Anomalies",anomaly)
 anomaly_index=anomaly.index
 print(anomaly_index)
-anomalias.to_excel('iForest_anomalies.xlsx')
+anomaly.to_excel('iForest_anomalies.xlsx')
 
 # Confusion matrix
 from sklearn.metrics import confusion_matrix, precision_score, recall_score, accuracy_score, f1_score
