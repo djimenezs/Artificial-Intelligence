@@ -16,7 +16,7 @@ iForest.fit(dataset)
 # Anomaly scores for each observation
 scores = iForest.decision_function(dataset)
 
-# Histogram of Decision Scores
+# Histogram of anomaly scores
 plt.hist(scores, bins=70)
 plt.xlabel('Decision Scoring')
 plt.ylabel('Frequency')
