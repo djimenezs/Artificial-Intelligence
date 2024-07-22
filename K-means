@@ -39,9 +39,9 @@ anomalias = data[distances > umbral]
 
 # Results
 print("Number of anomalies detected:", len(anomalias))
-print("Anomalies", anomalias)
+print("Anomalies:", anomalias)
 anomaly_index=anomalias.index
-print(anomaly_index)
+print("Anomaly indexes:", anomaly_index)
 anomalias.to_excel('K_Means_anomalias.xlsx')
 
 # Davies Bouldin index
