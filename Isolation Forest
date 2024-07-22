@@ -5,7 +5,6 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.ensemble import IsolationForest
 import matplotlib.pyplot as plt
 
-
 data = pd.read_excel('dataset.xlsx')
 scaler = MinMaxScaler()
 dataset = pd.DataFrame(scaler.fit_transform(data), columns=data.columns) 
@@ -17,24 +16,42 @@ iForest.fit(dataset)
 # Anomaly scores for each observation
 scores = iForest.decision_function(dataset)
 
-# Defining the anomaly threshold, and finding anomalous observations
-umbral=-0.06
-anomaly=dataset[scores < umbral]
-
-# Results
-print("Number of anomalies detected:", len(anomaly))
-
-# Anomalies index
-anomaly_index=anomaly.index
-print(anomaly_index)
-
-# Forma 2
-anomaly_index_1 = np.where(scores < umbral)[0]
-print(anomaly_index_1)
-
 # Histogram of Decision Scores
 plt.hist(scores, bins=70)
 plt.xlabel('Decision Scoring')
 plt.ylabel('Frequency')
 plt.title('Histogram of Decision Scores')
 plt.show()
+
+# Defining the anomaly threshold, and finding anomalous observations
+umbral=-0.06
+anomaly=dataset[scores < umbral]
+
+# Results
+print("Number of anomalies detected:", len(anomaly))
+anomaly_index=anomaly.index
+print(anomaly_index)
+anomalias.to_excel('iForest_anomalies.xlsx')
+
+# Confusion matrix
+from sklearn.metrics import confusion_matrix, precision_score, recall_score, accuracy_score, f1_score
+import seaborn as sns
+dat = pd.read_excel('tdaytdf.xlsx')
+etiq_verdadera=dat['anom']
+etiq_predicha=dat['k_means']
+cm = confusion_matrix(etiq_verdadera, etiq_predicha,labels=[0, 1])
+print(cm)
+
+# True Positives
+VP = cm[0, 0]
+# True Negatives
+VN = cm[1, 1]
+# False Positives (FP)
+FP = cm[1, 0]
+# False Negatives (FN)
+FN = cm[0, 1]
+
+TDA= VP/(VP+FN)  # Anomaly Detection Rate (ADR)
+TFA=FP/(VN+FP)   # False Alarm Rate (FAR)
+print("Anomaly Detection Rate (ADR):", TDA)
+print("False Alarm Rate (FAR):", TFA)
