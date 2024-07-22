@@ -29,9 +29,9 @@ anomaly=dataset[scores < umbral]
 
 # Results
 print("Number of anomalies detected:", len(anomaly))
-print("Anomalies",anomaly)
+print("Anomalies:",anomaly)
 anomaly_index=anomaly.index
-print(anomaly_index)
+print("Anomaly indexes:", anomaly_index)
 anomaly.to_excel('iForest_anomalies.xlsx')
 
 # Confusion matrix
@@ -39,7 +39,7 @@ from sklearn.metrics import confusion_matrix, precision_score, recall_score, acc
 import seaborn as sns
 dat = pd.read_excel('tdaytdf.xlsx')
 etiq_verdadera=dat['anom']
-etiq_predicha=dat['k_means']
+etiq_predicha=dat['iForest']
 cm = confusion_matrix(etiq_verdadera, etiq_predicha,labels=[0, 1])
 print(cm)
 
