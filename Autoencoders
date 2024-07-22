@@ -49,7 +49,7 @@ from sklearn.metrics import confusion_matrix, precision_score, recall_score, acc
 import seaborn as sns
 dat = pd.read_excel('tdaytdf.xlsx')
 etiq_verdadera=dat['anom']
-etiq_predicha=dat['iForest']
+etiq_predicha=dat['autoencoders']
 cm = confusion_matrix(etiq_verdadera, etiq_predicha,labels=[0, 1])
 print(cm)
 
