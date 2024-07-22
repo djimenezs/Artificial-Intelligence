@@ -1,0 +1,42 @@
+import numpy as np
+import pandas as pd
+import tensorflow as tf
+from tensorflow.keras.layers import Input, Dense
+from tensorflow.keras.models import Model
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler
+
+data = pd.read_excel('dataset.xlsx')
+scaler = MinMaxScaler()
+df_normalized = pd.DataFrame(scaler.fit_transform(data), columns=data.columns)
+data=df_normalized
+
+X_train, X_test, y_train, y_test = train_test_split(data, data, test_size=0.2, random_state=42)
+
+# Autoencoder model
+input_dim = X_train.shape[1]
+encoding_dim = 10  
+input_layer = Input(shape=(input_dim,))
+encoder_layer = Dense(encoding_dim, activation='relu')(input_layer)
+decoder_layer = Dense(input_dim, activation='sigmoid')(encoder_layer)
+
+autoencoder = Model(inputs=input_layer, outputs=decoder_layer)
+autoencoder.compile(optimizer='adam', loss='mean_squared_error')
+
+# Autoencoder training
+autoencoder.fit(X_train, X_train, epochs=50, batch_size=32, shuffle=True, validation_data=(X_test, X_test))
+
+# Calculating reconstruction errors
+train_preds = autoencoder.predict(X_train)
+train_errors = np.mean(np.square(X_train - train_preds), axis=1)
+
+# Definition of the anomaly threshold, and detection of anomalies in the test set
+threshold = np.percentile(train_errors, 95)  
+test_preds = autoencoder.predict(X_test)
+test_errors = np.mean(np.square(X_test - test_preds), axis=1)
+anomalies = test_errors > threshold
+
+# Results
+print("anomaly threshold: {threshold:.4f}")
+print("Number of anomalies detected: {np.sum(anomalies)}")
+print(anomalies)
