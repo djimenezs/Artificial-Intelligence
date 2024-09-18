@@ -1,1 +1,1 @@
-Anomaly detection in an electricity consumption data dataset, using K-means, iForest and Autoencoders
+Anomaly detection in an electricity consumption data dataset, using k-means, Isolation Forest and Autoencoders
